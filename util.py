@@ -33,7 +33,7 @@ class UniformCostSearch:
             state, pastCost = frontier.removeMin()
             if state == None: break
             self.numStatesExplored += 1
-            if pastCost > 2:
+            if pastCost > 5:
                 print 'Exceeded specified cost of %d' % 5
                 break
             if self.verbose >= 2:
