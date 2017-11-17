@@ -103,6 +103,6 @@ def generateCube():
     cube.rotate('U')
     cube.rotate('R')
     cube.rotate('U')
-    cube.rotate('R')
-    cube.rotate('R')
+    cube.rotate('R', True)
+    cube.rotate('B')
     return cube

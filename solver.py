@@ -1,6 +1,4 @@
-import util
-import cube
-import copy
+import util, cube, copy, time
 
 class RubiksProblem:
     def __init__(self, cube):
@@ -31,7 +29,10 @@ class RubiksProblem:
 
 def solve(query):
     ucs = util.UniformCostSearch(verbose=1)
+    start = time.time()
     ucs.solve(RubiksProblem(query))
+    end = time.time()
+    print 'Took %f seconds' % (end - start)
     return 'Solution: ' + ', '.join(ucs.actions)
 
 if __name__ == '__main__':
