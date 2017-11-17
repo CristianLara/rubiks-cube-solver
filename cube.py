@@ -1,4 +1,5 @@
 import copy
+import util
 
 class Cube:
 
@@ -82,14 +83,26 @@ class Cube:
                     else:
                         self.faces[faces[nextIndex]][order[nextIndex][j]] = facesCopy[face][order[i][j]]
 
+    SOLUTION = set( tuple(i) for i in [ [i for j in range(9)] for i in range(6)] )
+
     def isSolved(self):
         faces = set(tuple(i) for i in self.faces.values())
-        return faces == set( tuple(i) for i in [ [i for j in range(9)] for i in range(6)] )
+        return faces == self.SOLUTION
+
+    def cost(self):
+        cost = 0
+        for face in self.faces:
+            uniqueValues = set(self.faces[face])
+            cost += len(uniqueValues)**2
+        return cost
 
 
 def generateCube():
     cube = Cube()
     cube.rotate('F')
     cube.rotate('U')
+    cube.rotate('R')
+    cube.rotate('U')
+    cube.rotate('R')
     cube.rotate('R')
     return cube

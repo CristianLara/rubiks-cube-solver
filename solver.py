@@ -17,10 +17,10 @@ class RubiksProblem:
         results = []
         for face in self.faces:
             for reverse in [False, True]:
-                cost = self.stateCost()
                 newCube = copy.deepcopy(cube)
                 newCube.rotate(face, reverse=reverse)
                 action = face
+                cost = newCube.cost()
                 if reverse is True: action += "\'"
                 results.append((action, newCube, cost))
         return results
@@ -30,7 +30,7 @@ class RubiksProblem:
 
 
 def solve(query):
-    ucs = util.UniformCostSearch(verbose=0)
+    ucs = util.UniformCostSearch(verbose=1)
     ucs.solve(RubiksProblem(query))
     return 'Solution: ' + ', '.join(ucs.actions)
 
