@@ -1,4 +1,4 @@
-import util, cube, copy, time
+import util, cube, copy, time, sys
 
 class RubiksProblem:
     def __init__(self, cube):
@@ -16,7 +16,7 @@ class RubiksProblem:
         for face in self.faces:
             for reverse in [False, True]:
                 newCube = copy.deepcopy(cube)
-                newCube.rotate(face, reverse=reverse)
+                newCube.rotate(face, reverse)
                 action = face
                 cost = newCube.cost()
                 if reverse is True: action += "\'"
@@ -32,10 +32,11 @@ def solve(query):
     start = time.time()
     ucs.solve(RubiksProblem(query))
     end = time.time()
-    print 'Took %f seconds' % (end - start)
-    return 'Solution: ' + ', '.join(ucs.actions)
+    return ', '.join(ucs.actions), (end - start)
 
 if __name__ == '__main__':
     cube = cube.generateCube()
-    solution = solve(cube)
-    print solution
+    solution, duration = solve(cube)
+    print 'Took %f seconds to solve' % duration
+    print 'Solution: [', solution, ']'
+    print

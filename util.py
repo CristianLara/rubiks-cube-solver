@@ -33,6 +33,9 @@ class UniformCostSearch:
             state, pastCost = frontier.removeMin()
             if state == None: break
             self.numStatesExplored += 1
+            if self.verbose >= 1:
+                sys.stdout.write("\rTrying %d turns..." % self.numStatesExplored)
+                sys.stdout.flush()
             if self.verbose >= 2:
                 print "Exploring %s with pastCost %s" % (state.faces, pastCost)
 
@@ -46,9 +49,7 @@ class UniformCostSearch:
                 self.actions.reverse()
                 self.totalCost = pastCost
                 if self.verbose >= 1:
-                    print "numStatesExplored = %d" % self.numStatesExplored
-                    print "totalCost = %s" % self.totalCost
-                    print "actions = %s" % self.actions
+                    print
                 return
 
             # Expand from |state| to new successor states,

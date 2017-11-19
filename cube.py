@@ -1,5 +1,5 @@
-import copy
-import util
+import copy, util, random
+# import util
 
 class Cube:
 
@@ -90,6 +90,7 @@ class Cube:
         return faces == self.SOLUTION
 
     def cost(self):
+        # return 1
         cost = 0
         for face in self.faces:
             uniqueValues = set(self.faces[face])
@@ -99,10 +100,16 @@ class Cube:
 
 def generateCube():
     cube = Cube()
-    cube.rotate('F')
-    cube.rotate('U')
-    cube.rotate('R')
-    cube.rotate('U')
-    cube.rotate('R', True)
-    cube.rotate('B')
+    moves = ['L', 'R', 'F', 'B', 'U', 'D']
+    progress = []
+    print
+    print 'Shuffling cube...'
+    for i in range(7):
+        move = random.choice(moves)
+        reverse = random.choice([True, False])
+        cube.rotate(move, reverse)
+        if reverse is True: move += '\''
+        progress.append(move)
+    print 'Moves: [', ', '.join(progress), ']'
+    print
     return cube
