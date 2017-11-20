@@ -90,7 +90,6 @@ class Cube:
         return faces == self.SOLUTION
 
     def cost(self):
-        # return 1
         cost = 0
         for face in self.faces:
             uniqueValues = set(self.faces[face])

@@ -49,6 +49,8 @@ class UniformCostSearch:
                 self.actions.reverse()
                 self.totalCost = pastCost
                 if self.verbose >= 1:
+                    sys.stdout.write("\rSolved in %d turns" % self.numStatesExplored)
+                    sys.stdout.flush()
                     print
                 return
 
