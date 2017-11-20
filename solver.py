@@ -1,4 +1,5 @@
-import util, cube, copy, time, sys
+import util, copy, time, sys
+from cube import Cube
 
 class RubiksProblem:
     def __init__(self, cube):
@@ -32,7 +33,7 @@ def solve(query):
     return ', '.join(ucs.actions), (end - start)
 
 if __name__ == '__main__':
-    cube = cube.generateCube()
+    cube = Cube(7)
     solution, duration = solve(cube)
     print 'Took %f seconds to solve' % duration
     print 'Solution: [', solution, ']'

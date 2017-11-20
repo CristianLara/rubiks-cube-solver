@@ -28,14 +28,29 @@ class Cube:
           5, 5, 5 ]
     ]
 
-    def __init__(self, faces=SOLVED_CUBE):
+    def __init__(self, randomness=1):
         self.faces = {}
-        self.faces['U'] = faces[0]
-        self.faces['L'] = faces[1]
-        self.faces['F'] = faces[2]
-        self.faces['R'] = faces[3]
-        self.faces['B'] = faces[4]
-        self.faces['D'] = faces[5]
+        self.faces['U'] = self.SOLVED_CUBE[0]
+        self.faces['L'] = self.SOLVED_CUBE[1]
+        self.faces['F'] = self.SOLVED_CUBE[2]
+        self.faces['R'] = self.SOLVED_CUBE[3]
+        self.faces['B'] = self.SOLVED_CUBE[4]
+        self.faces['D'] = self.SOLVED_CUBE[5]
+        self.randomize(randomness)
+
+    def randomize(self, randomness):
+        moves = ['L', 'R', 'F', 'B', 'U', 'D']
+        progress = []
+        print
+        print 'Shuffling cube...'
+        for i in range(randomness):
+            move = random.choice(moves)
+            reverse = random.choice([True, False])
+            self.rotate(move, reverse)
+            if reverse is True: move += '\''
+            progress.append(move)
+        print 'Moves: [', ', '.join(progress), ']'
+        print
 
     def rotate(self, face, reverse=False):
         faceCopy = list(self.faces[face])
@@ -94,20 +109,3 @@ class Cube:
             uniqueValues = set(self.faces[face])
             cost += len(uniqueValues)**2
         return cost
-
-
-def generateCube():
-    cube = Cube()
-    moves = ['L', 'R', 'F', 'B', 'U', 'D']
-    progress = []
-    print
-    print 'Shuffling cube...'
-    for i in range(7):
-        move = random.choice(moves)
-        reverse = random.choice([True, False])
-        cube.rotate(move, reverse)
-        if reverse is True: move += '\''
-        progress.append(move)
-    print 'Moves: [', ', '.join(progress), ']'
-    print
-    return cube
