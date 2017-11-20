@@ -23,9 +23,6 @@ class RubiksProblem:
                 results.append((action, newCube, cost))
         return results
 
-    def stateCost(self):
-        return 1
-
 
 def solve(query):
     ucs = util.UniformCostSearch(verbose=1)
