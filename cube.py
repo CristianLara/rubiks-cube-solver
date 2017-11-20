@@ -1,5 +1,4 @@
 import copy, util, random
-# import util
 
 class Cube:
 
