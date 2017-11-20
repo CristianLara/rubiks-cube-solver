@@ -54,7 +54,11 @@ class Cube:
 
     def rotate(self, face, reverse=False):
         faceCopy = list(self.faces[face])
+
+        # hard coding positions on face before and after rotation
+        # TODO mathematically calculate position changes
         order = [(0,6), (1,3), (2,0), (3,7), (4,4), (5,1), (6,8), (7,5), (8,2)]
+
         # rotate the numbers on the face
         for a, b in order:
             if reverse is False:
@@ -79,7 +83,7 @@ class Cube:
     def rotateAdjacent(self, faces, reverse, order=None):
         facesCopy = copy.deepcopy(self.faces)
 
-        if order is not None:
+        if order is not None: # we rotated a top or bottom face
             for i, face in enumerate(faces):
                 for j in order:
                     nextIndex = (i+1)%4
@@ -87,7 +91,8 @@ class Cube:
                         self.faces[face][j] = facesCopy[faces[nextIndex]][j]
                     else:
                         self.faces[faces[nextIndex]][j] = facesCopy[face][j]
-        else:
+        else: # we rotated a side face
+            # hard coding positions on adjacent faces before and after rotation
             order = [[0, 1, 2], [6, 3, 0], [8, 7, 6], [2, 5, 8]]
             for i, face in enumerate(faces):
                 for j in range(len(order[0])):
