@@ -180,33 +180,6 @@ class Cube:
                     cost += 1
         return cost**2
 
-    def bottomCostT(self):
-        cost = 0
-        center = 4
-        for face in self.faces.values():
-            for cubie in face:
-                if cubie == face[center]: continue
-                if abs(cubie - face[center]) == 5 or abs(cubie - face[center]) == 2:
-                    cost += 2
-                else:
-                    cost += 1
-        return cost
-
-    def bottomCost(self):
-        cost = 0
-
-        bottomUniqueValues = set(self.faces['D'])
-        cost += len(bottomUniqueValues)**2
-
-        sides = ['L', 'F', 'R', 'B']
-        for side in sides:
-            face = self.faces[side]
-            uniqueValues = set()
-            for pos in range(6, 9):
-                uniqueValues.add(face[pos])
-            cost += len(uniqueValues)**3
-        return cost
-
     def __str__(self):
         string = ''
         for face in ['U', 'L', 'F', 'R', 'B', 'D']:
