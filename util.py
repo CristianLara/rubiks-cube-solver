@@ -34,7 +34,7 @@ class UniformCostSearch:
             if state == None: break
             self.numStatesExplored += 1
             if self.verbose >= 1:
-                sys.stdout.write("\rTrying %d turns..." % self.numStatesExplored)
+                sys.stdout.write("\rTrying %d turns..." % (self.numStatesExplored - 1))
                 sys.stdout.flush()
             if self.verbose >= 2:
                 print "Exploring %s with pastCost %s" % (state.faces, pastCost)
@@ -49,7 +49,7 @@ class UniformCostSearch:
                 self.actions.reverse()
                 self.totalCost = pastCost
                 if self.verbose >= 1:
-                    sys.stdout.write("\rSolved in %d turns" % self.numStatesExplored)
+                    sys.stdout.write("\rSolved in %d turns" % (self.numStatesExplored - 1))
                     sys.stdout.flush()
                     print
                 return
