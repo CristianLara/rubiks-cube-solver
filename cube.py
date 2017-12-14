@@ -37,7 +37,7 @@ class Cube:
         self.faces['B'] = self.SOLVED_CUBE[4]
         self.faces['D'] = self.SOLVED_CUBE[5]
 
-        self.triples = [(('F', 0),('L', 2),('U', 6)), # front top left
+        self.corners = [(('F', 0),('L', 2),('U', 6)), # front top left
                         (('F', 2),('R', 0),('U', 8)), # f-t-r
                         (('F', 6),('L', 8),('D', 0)), # f-b-l
                         (('F', 8),('R', 6),('D', 2)), # f-b-r
@@ -46,18 +46,21 @@ class Cube:
                         (('B', 6),('R', 8),('D', 8)), # b-d-l
                         (('B', 8),('L', 6),('D', 6))] # b-d-r
 
-        self.doubles = [(('F', 1),('U', 7)), # fromt
+        self.edges =   [# front
+                        (('F', 1),('U', 7)),
                         (('F', 3),('L', 5)),
                         (('F', 5),('R', 3)),
                         (('F', 7),('D', 1)),
-                        (('B', 1),('U', 7)), # back
-                        (('B', 3),('U', 5)),
-                        (('B', 5),('U', 3)),
-                        (('B', 7),('U', 1)),
-                        (('L', 1),('U', 7)), # center
-                        (('L', 7),('D', 1)),
-                        (('R', 1),('U', 7)),
-                        (('R', 7),('D', 1))]
+                        # back
+                        (('B', 1),('U', 1)),
+                        (('B', 3),('R', 5)),
+                        (('B', 5),('L', 3)),
+                        (('B', 7),('D', 7)),
+                        # center
+                        (('L', 1),('U', 3)),
+                        (('L', 7),('D', 3)),
+                        (('R', 1),('U', 5)),
+                        (('R', 7),('D', 5))]
 
         self.lastRotation = None
         self.randomize(randomness)
