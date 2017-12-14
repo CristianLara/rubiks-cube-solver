@@ -36,23 +36,48 @@ class Cube:
         self.faces['R'] = self.SOLVED_CUBE[3]
         self.faces['B'] = self.SOLVED_CUBE[4]
         self.faces['D'] = self.SOLVED_CUBE[5]
+
+        self.triples = [(('F', 0),('L', 2),('U', 6)), # front top left
+                        (('F', 2),('R', 0),('U', 8)), # f-t-r
+                        (('F', 6),('L', 8),('D', 0)), # f-b-l
+                        (('F', 8),('R', 6),('D', 2)), # f-b-r
+                        (('B', 0),('R', 2),('U', 2)), # b-t-l
+                        (('B', 2),('L', 0),('U', 0)), # b-t-r
+                        (('B', 6),('R', 8),('D', 8)), # b-d-l
+                        (('B', 8),('L', 6),('D', 6))] # b-d-r
+
+        self.doubles = [(('F', 1),('U', 7)), # fromt
+                        (('F', 3),('L', 5)),
+                        (('F', 5),('R', 3)),
+                        (('F', 7),('D', 1)),
+                        (('B', 1),('U', 7)), # back
+                        (('B', 3),('U', 5)),
+                        (('B', 5),('U', 3)),
+                        (('B', 7),('U', 1)),
+                        (('L', 1),('U', 7)), # center
+                        (('L', 7),('D', 1)),
+                        (('R', 1),('U', 7)),
+                        (('R', 7),('D', 1))]
+
+        self.lastRotation = None
         self.randomize(randomness)
 
     def randomize(self, randomness):
-        moves = ['L', 'R', 'F', 'B', 'U', 'D']
-        progress = []
+        possibleMoves = ['L', 'R', 'F', 'B', 'U', 'D']
+        moves = []
         print
         print 'Shuffling cube...'
         for i in range(randomness):
-            move = random.choice(moves)
+            move = random.choice(possibleMoves)
             reverse = random.choice([True, False])
             self.rotate(move, reverse)
             if reverse is True: move += '\''
-            progress.append(move)
-        print 'Moves: [', ', '.join(progress), ']'
+            moves.append(move)
+        print 'Moves: [', ', '.join(moves), ']'
         print
 
     def rotate(self, face, reverse=False):
+        self.lastRotation = (face, reverse)
         faceCopy = list(self.faces[face])
 
         # hard coding positions on face before and after rotation
@@ -108,9 +133,84 @@ class Cube:
         faces = set(tuple(i) for i in self.faces.values())
         return faces == self.SOLUTION
 
+    def bottomIsSolved(self):
+        # check bottom faces
+        uniqueValues = set(self.faces['D'])
+        if len(uniqueValues) > 1: return False
+
+        # check bottow row of side faces
+        center = 4
+        sides = ['L', 'F', 'R', 'B']
+        for side in sides:
+            face = self.faces[side]
+            for pos in range(6, 9):
+                if face[pos] != face[center]: return False
+        return True
+
+    def bottomTIsSolved(self):
+        # check bottom faces
+        d = self.faces['D']
+        uniqueValues = set([d[1], d[3], d[5], d[7]])
+        if len(uniqueValues) > 1: return False
+
+        # check bottow row of side faces
+        center = 4
+        sides = ['L', 'F', 'R', 'B']
+        for side in sides:
+            face = self.faces[side]
+            if face[7] != face[center]: return False
+        return True
+
     def cost(self):
         cost = 0
         for face in self.faces:
             uniqueValues = set(self.faces[face])
             cost += len(uniqueValues)**2
         return cost
+
+    def cost2(self):
+        cost = 0
+        center = 4
+        for face in self.faces.values():
+            for cubie in face:
+                if cubie == face[center]: continue
+                if abs(cubie - face[center]) == 5 or abs(cubie - face[center]) == 2:
+                    cost += 2
+                else:
+                    cost += 1
+        return cost**2
+
+    def bottomCostT(self):
+        cost = 0
+        center = 4
+        for face in self.faces.values():
+            for cubie in face:
+                if cubie == face[center]: continue
+                if abs(cubie - face[center]) == 5 or abs(cubie - face[center]) == 2:
+                    cost += 2
+                else:
+                    cost += 1
+        return cost
+
+    def bottomCost(self):
+        cost = 0
+
+        bottomUniqueValues = set(self.faces['D'])
+        cost += len(bottomUniqueValues)**2
+
+        sides = ['L', 'F', 'R', 'B']
+        for side in sides:
+            face = self.faces[side]
+            uniqueValues = set()
+            for pos in range(6, 9):
+                uniqueValues.add(face[pos])
+            cost += len(uniqueValues)**3
+        return cost
+
+    def __str__(self):
+        string = ''
+        for face in ['U', 'L', 'F', 'R', 'B', 'D']:
+            string += '\n%s: ' % face
+            for value in self.faces[face]:
+                string += '%s, ' % value
+        return string
